@@ -34,6 +34,8 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'com.microsoft.sqlserver:mssql-jdbc:12.2.0.jre8' // 최신 버전 사용
+
 }
 
 tasks.named('test') {
