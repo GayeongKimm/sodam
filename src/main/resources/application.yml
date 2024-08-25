@@ -1,18 +1,8 @@
 spring:
-#  datasource:
-    #    driver-class-name: org.postgresql.Driver
-    #    url: ${DB_URL}
-    #    username: ${DB_USERNAME}
-    #    password: ${DB_PASSWORD}
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/appjam
-#    username: root
-#    password: 12345678
-
   datasource:
-    url: jdbc:sqlserver://sodam.database.windows.net:1433;database=sodam;uencrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
-    username: yeong4452@sodam
-    password: seafoodgozero@4452
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
 
   jpa:
@@ -21,51 +11,12 @@ spring:
     show-sql: true
     properties:
       hibernate.dialect: org.hibernate.dialect.SQLServerDialect
-  #  jpa:
-  #    hibernate:
-  #      ddl-auto: create
-  #      dialect: org.hibernate.dialect.PostgreSQLDialect
-  #    properties:
-  #      hibernate:
-  #        default_batch_fetch_size: 100
-  #        format_sql: true
-#
-#  jpa:
-#    open-in-view: false
-#    hibernate:
-#      ddl-auto: none
-#      show-sql: true
-#    properties:
-#      hibernate:
-#        default_batch_fetch_size: 100
-#        format_sql: true
-
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: teamsopo0430@gmail.com
-    password: wtfclxrhbjkfoivv
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-            required: true
-          connectiontimeout: 5000
-          timeout: 5000
-          writetimeout: 5000
-    auth-code-expiration-millis: 300000
-  data:
-    redis:
-      host: 43.201.249.136
-      port: 6379
 
 application:
   jwt:
-    secretKey: 91e97a7f4a46000fd8ddf0beb1a2baf898c16092f20dd26262281fbdd0e1371f1d5cbcd332eb529d21e2c7c523cf7335ca239a99d3eca2a5c9f6e7a34fd72031
-    accessExpiration: 600000
-    refreshExpiration: 1209600000
+    secretKey: ${TOKEN_SECRET_KEY}
+    accessExpiration: ${ACCESS_EXPIRE}
+    refreshExpiration: ${REFRESH_EXPIRE}
 
   server:
     port: 8080

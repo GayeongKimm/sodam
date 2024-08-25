@@ -27,11 +27,17 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Create application.yml
-        run: |
-          cd ./src/main/resources
-          touch ./application.yml
-          echo "${{ secrets.APPLICATION }}" > ./application.yml
+      - name: Set yml file
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: Alimo-api/src/main/resources/application.yml
+        env:
+          spring.datasource.url: ${{ secrets.DB_URL }}
+          spring.datasource.username: ${{ secrets.DB_USERNAME }}
+          spring.datasource.password: ${{ secrets.DB_PASSWORD }}
+          app.jwt.secretKey: ${{ secrets.TOKEN_SECRET_KEY }}
+          app.jwt.accessExpire: ${{ secrets.ACCESS_EXPIRE }}
+          app.jwt.refreshExpire: ${{ secrets.REFRESH_EXPIRE }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -54,10 +60,10 @@ jobs:
       - name: Log in with Azure (Federated Credentials)
         if: ${{ env.AZURE_CLIENT_ID != '' }}
         run: |
-          azd auth login \
-            --client-id "$Env:AZURE_CLIENT_ID" \
-            --federated-credential-provider "github" \
-            --tenant-id "$Env:AZURE_TENANT_ID"
+            azd auth login `
+              --client-id $env:AZURE_CLIENT_ID `
+              --federated-credential-provider "github" `
+              --tenant-id $env:AZURE_TENANT_ID
         shell: pwsh
 
       - name: Install Bicep CLI
