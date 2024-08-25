@@ -60,10 +60,9 @@ jobs:
       - name: Log in with Azure (Federated Credentials)
         if: ${{ env.AZURE_CLIENT_ID != '' }}
         run: |
-            azd auth login `
-              --client-id $env:AZURE_CLIENT_ID `
-              --federated-credential-provider "github" `
-              --tenant-id $env:AZURE_TENANT_ID
+          az login 
+          --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} 
+          --tenant ${{ secrets.AZURE_TENANT_ID }}
         shell: pwsh
 
       - name: Install Bicep CLI
