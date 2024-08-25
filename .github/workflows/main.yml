@@ -1,0 +1,88 @@
+name: CI/CD using GitHub Actions & Bicep
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      AZURE_RESOURCE_GROUP: ${{ secrets.AZURE_RESOURCE_GROUP }}
+      AZURE_LOCATION: ${{ secrets.AZURE_LOCATION }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+#      - name: Create application.yml
+#        run: |
+#          cd ./src/main/resources
+#          touch ./application.yml
+#          echo "${{ secrets.APPLICATION }}" > ./application.yml
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: List build/libs contents
+        run: ls -la build/libs
+
+      - name: Docker build
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/sodam .
+          docker push ${{ secrets.DOCKER_USERNAME }}/sodam:latest
+
+      - name: Install azd
+        uses: Azure/setup-azd@v1.0.0
+
+      - name: Log in with Azure (Federated Credentials)
+        if: ${{ env.AZURE_CLIENT_ID != '' }}
+        run: |
+          azd auth login \
+            --client-id "$Env:AZURE_CLIENT_ID" \
+            --federated-credential-provider "github" \
+            --tenant-id "$Env:AZURE_TENANT_ID"
+        shell: pwsh
+
+      - name: Install Bicep CLI
+        run: az bicep install
+
+      - name: Validate Bicep file
+        run: az bicep build --file ./main.bicep
+
+      - name: Deploy Azure Infrastructure using Bicep
+        run: |
+          az deployment group create \
+            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+            --template-file ./main.bicep \
+            --parameters @./parameters.json
+
+      - name: Configure Azure App Service to use Docker container
+        run: |
+          az webapp config container set \
+            --name ${{ secrets.AZURE_APP_NAME }} \
+            --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} \
+            --docker-custom-image-name ${{ secrets.DOCKER_USERNAME }}/sodam:latest \
+            --docker-registry-server-url https://index.docker.io \
+            --docker-registry-server-user ${{ secrets.DOCKER_USERNAME }} \
+            --docker-registry-server-password ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Restart Azure App Service
+        run: |
+          az webapp restart --name ${{ secrets.AZURE_APP_NAME }} --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }}
