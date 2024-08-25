@@ -2,7 +2,7 @@ name: CI/CD using GitHub Actions & Bicep
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 permissions:
   contents: read
