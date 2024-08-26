@@ -60,7 +60,7 @@ module fetchLatestImage '../modules/fetch-container-image.bicep' = {
 resource app 'Microsoft.App/containerApps@2023-05-02-preview' = {
   name: name
   location: location
-  tags: union(tags, {'azd-service-name':  'src' })
+  tags: union(tags, {'azd-service-name':  'hg-good-tshirt' })
   dependsOn: [ acrPullRole ]
   identity: {
     type: 'UserAssigned'

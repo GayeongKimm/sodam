@@ -8,10 +8,10 @@
       "location": {
         "value": "${AZURE_LOCATION}"
       },
-      "srcExists": {
-        "value": "${SERVICE_SRC_RESOURCE_EXISTS=false}"
+      "hgGoodTshirtExists": {
+        "value": "${SERVICE_HG_GOOD_TSHIRT_RESOURCE_EXISTS=false}"
       },
-      "srcDefinition": {
+      "hgGoodTshirtDefinition": {
         "value": {
           "settings": [
             {

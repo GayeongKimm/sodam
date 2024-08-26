@@ -9,9 +9,9 @@ param environmentName string
 @description('Primary location for all resources')
 param location string
 
-param srcExists bool
+param hgGoodTshirtExists bool
 @secure()
-param srcDefinition object
+param hgGoodTshirtDefinition object
 
 @description('Id of the user or app to assign application roles')
 param principalId string
@@ -89,18 +89,18 @@ module appsEnv './shared/apps-env.bicep' = {
   scope: rg
 }
 
-module src './app/src.bicep' = {
-  name: 'src'
+module hgGoodTshirt './app/hg-good-tshirt.bicep' = {
+  name: 'hg-good-tshirt'
   params: {
-    name: '${abbrs.appContainerApps}src-${resourceToken}'
+    name: '${abbrs.appContainerApps}hg-good-tshi-${resourceToken}'
     location: location
     tags: tags
-    identityName: '${abbrs.managedIdentityUserAssignedIdentities}src-${resourceToken}'
+    identityName: '${abbrs.managedIdentityUserAssignedIdentities}hg-good-tshi-${resourceToken}'
     applicationInsightsName: monitoring.outputs.applicationInsightsName
     containerAppsEnvironmentName: appsEnv.outputs.name
     containerRegistryName: registry.outputs.name
-    exists: srcExists
-    appDefinition: srcDefinition
+    exists: hgGoodTshirtExists
+    appDefinition: hgGoodTshirtDefinition
   }
   scope: rg
 }
