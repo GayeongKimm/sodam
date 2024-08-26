@@ -26,13 +26,14 @@ spring:
     encoding: UTF-8
     servlet:
       content-type: text/html
-#
-#  cloud:
-#    azure:
-#      storage:
-#        account: ${STORAGE_NAME}  # Azure Storage Account Name
-#        endpoint: ${ENDPOINT}     # Azure Storage Endpoint URL
-#        sas-token: ${SAS_TOKEN}   # Shared Access Signature Token
+
+  cloud:
+    azure:
+      storage:
+        blob:
+          account-name: ${STORAGE_NAME}
+          endpoint: ${ENDPOINT}
+
 
 application:
   jwt:
