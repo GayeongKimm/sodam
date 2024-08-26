@@ -27,12 +27,12 @@ spring:
     servlet:
       content-type: text/html
 
-  cloud:
-    azure:
-      storage:
-        account: ${STORAGE_NAME}
-        endpoint: ${END-POINT}
-        sas-token: ${SAS_TOKEN}
+#  cloud:
+#    azure:
+#      storage:
+#        account: ${STORAGE_NAME}
+#        endpoint: ${END-POINT}
+#        sas-token: ${SAS_TOKEN}
 
 application:
   jwt:
