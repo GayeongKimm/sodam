@@ -42,9 +42,9 @@ jobs:
           app.jwt.secretKey: ${{ secrets.TOKEN_SECRET_KEY }}
           app.jwt.accessExpire: ${{ secrets.ACCESS_EXPIRE }}
           app.jwt.refreshExpire: ${{ secrets.REFRESH_EXPIRE }}
-#          cloud.azure.storage.account: ${{ secrets.STORAGE_NAME }}
-#          cloud.azure.storage.endpoint: ${{ secrets.END-POINT }}
-#          cloud.azure.storage.sas-token: ${{ secrets.SAS_TOKEN }}
+          cloud.azure.storage.account: ${{ secrets.STORAGE_NAME }}
+          cloud.azure.storage.endpoint: ${{ secrets.END-POINT }}
+          cloud.azure.storage.sas-token: ${{ secrets.SAS_TOKEN }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew

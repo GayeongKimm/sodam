@@ -1,6 +1,7 @@
 package hackers.ground.sodam.domain.auth.presentation.controller;
 
 import hackers.ground.sodam.domain.auth.presentation.dto.req.UserSignUpReq;
+import hackers.ground.sodam.domain.user.enums.UserCategory;
 import hackers.ground.sodam.global.response.Response;
 import hackers.ground.sodam.global.response.ResponseData;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +26,7 @@ public class AuthController {
 
     @Operation(description = "회원가입")
     @PostMapping("/sign_up")
-    public Response signUp(
+    public ResponseData<UserCategory> signUp(
             @RequestBody @Valid UserSignUpReq userSignUpReq
             ){
         return authService.signUp(userSignUpReq);
@@ -33,7 +34,7 @@ public class AuthController {
 
     @Operation(description = "장사")
     @PostMapping("/sign_up/seller")
-    public Response signUpSeller(
+    public ResponseData<UserCategory> signUpSeller(
             @RequestBody @Valid SignUpReq signUpReq
     ){
         return authService.signUpSeller(signUpReq);

@@ -34,7 +34,7 @@ public class AuthService {
     private final BuyerRepository buyerRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public Response signUp(UserSignUpReq userSignUpReq) {
+    public ResponseData<UserCategory> signUp(UserSignUpReq userSignUpReq) {
         if (userRepository.existsByUserEmail(userSignUpReq.memberEmail())){
             throw EmailAlreadyExistsException.EXCEPTION;
         }
@@ -59,11 +59,11 @@ public class AuthService {
                 .address(userSignUpReq.memberAddress())
                 .build());
 
-        return Response.of(HttpStatus.OK, "회원가입 성공");
+        return ResponseData.of(HttpStatus.OK, "회원가입 성공", UserCategory.BUYER);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public Response signUpSeller(SignUpReq signUpReq) {
+    public ResponseData<UserCategory> signUpSeller(SignUpReq signUpReq) {
         if (userRepository.existsByUserEmail(signUpReq.memberEmail())){
             throw EmailAlreadyExistsException.EXCEPTION;
         }
@@ -92,7 +92,7 @@ public class AuthService {
                 .account(signUpReq.account())
                 .num(signUpReq.num())
                 .build());
-        return Response.of(HttpStatus.OK, "회원가입 성공");
+        return ResponseData.of(HttpStatus.OK, "회원가입 성공", UserCategory.SELLER);
     }
 
     @Transactional(rollbackFor = Exception.class)
