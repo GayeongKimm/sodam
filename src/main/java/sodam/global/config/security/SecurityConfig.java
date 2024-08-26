@@ -1,0 +1,79 @@
+package sodam.global.config.security;
+
+import sodam.global.error.ErrorResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import sodam.global.error.exception.StatusEnum;
+import sodam.global.infra.jwt.JwtExceptionFilter;
+import sodam.global.infra.jwt.JwtFilter;
+
+@Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
+public class SecurityConfig {
+    private final JwtFilter jwtFilter;
+    private final JwtExceptionFilter jwtExceptionFilter;
+    private final AccessDeniedHandler accessDeniedHandler;
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .httpBasic().disable()
+                .cors()
+                .and()
+                .csrf().disable()
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtExceptionFilter, JwtFilter.class)
+                .authorizeHttpRequests()
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                .requestMatchers("/auth/**").permitAll()
+                .requestMatchers("/email/**").permitAll()
+                .requestMatchers("/re_provide/**").permitAll()
+                .requestMatchers("/file/**").hasRole("ACTIVE")
+                .requestMatchers("/member/**").hasRole("ACTIVE")
+                .requestMatchers("/contest/**").hasRole("ACTIVE")
+                .requestMatchers("/like/**").hasRole("ACTIVE")
+                .requestMatchers("/profile/**").hasRole("ACTIVE")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().disable()
+                .exceptionHandling()
+                .accessDeniedHandler((req, res, e) -> jwtExceptionFilter.responseToClient(res, ErrorResponse.of(StatusEnum.INVALID_ROLE, "권한이 없습니다")))
+                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.FORBIDDEN))
+                .accessDeniedHandler(accessDeniedHandler);
+
+        return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOriginPattern("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
+}
