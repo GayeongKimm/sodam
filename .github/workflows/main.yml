@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - backend
+      - master
 
 permissions:
   id-token: write
@@ -39,6 +39,9 @@ jobs:
           spring.datasource.url: ${{ secrets.DB_URL }}
           spring.datasource.username: ${{ secrets.DB_USERNAME }}
           spring.datasource.password: ${{ secrets.DB_PASSWORD }}
+          app.jwt.secretKey: ${{ secrets.TOKEN_SECRET_KEY }}
+          app.jwt.accessExpire: ${{ secrets.ACCESS_EXPIRE }}
+          app.jwt.refreshExpire: ${{ secrets.REFRESH_EXPIRE }}
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
