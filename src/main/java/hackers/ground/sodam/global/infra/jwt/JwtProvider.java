@@ -1,15 +1,15 @@
 package hackers.ground.sodam.global.infra.jwt;
 
-import hackers.ground.sodam.global.properties.JwtProperties;
 import hackers.ground.sodam.domain.auth.presentation.dto.res.TokenRes;
+import hackers.ground.sodam.domain.thing.repository.UserRepository;
 import hackers.ground.sodam.domain.user.enums.UserState;
-import hackers.ground.sodam.domain.user.repository.UserRepository;
+import hackers.ground.sodam.global.error.custom.auth.WithdrawalMemberException;
+import hackers.ground.sodam.global.properties.JwtProperties;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import hackers.ground.sodam.global.error.custom.auth.WithdrawalMemberException;
 
 import java.util.Date;
 

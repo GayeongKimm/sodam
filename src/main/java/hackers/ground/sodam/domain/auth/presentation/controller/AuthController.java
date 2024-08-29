@@ -1,8 +1,11 @@
 package hackers.ground.sodam.domain.auth.presentation.controller;
 
-import hackers.ground.sodam.domain.auth.presentation.dto.req.UserSignUpReq;
+import hackers.ground.sodam.domain.auth.presentation.dto.res.SignInReq;
+import hackers.ground.sodam.domain.auth.presentation.dto.res.SignUpReq;
+import hackers.ground.sodam.domain.auth.presentation.dto.res.TokenRes;
+import hackers.ground.sodam.domain.auth.service.AuthService;
+import hackers.ground.sodam.domain.thing.presentation.dto.req.UserSignUpReq;
 import hackers.ground.sodam.domain.user.enums.UserCategory;
-import hackers.ground.sodam.global.response.Response;
 import hackers.ground.sodam.global.response.ResponseData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -12,10 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import hackers.ground.sodam.domain.auth.presentation.dto.req.SignInReq;
-import hackers.ground.sodam.domain.auth.presentation.dto.req.SignUpReq;
-import hackers.ground.sodam.domain.auth.presentation.dto.res.TokenRes;
-import hackers.ground.sodam.domain.auth.service.AuthService;
 
 @Tag(name = "Auth", description = "Auth Api")
 @RestController
@@ -32,7 +31,7 @@ public class AuthController {
         return authService.signUp(userSignUpReq);
     }
 
-    @Operation(description = "장사")
+    @Operation(description = "판매자")
     @PostMapping("/sign_up/seller")
     public ResponseData<UserCategory> signUpSeller(
             @RequestBody @Valid SignUpReq signUpReq

@@ -1,5 +1,6 @@
 package hackers.ground.sodam.global.error.custom.member;
 
+
 import hackers.ground.sodam.global.error.exception.BusinessException;
 import hackers.ground.sodam.global.error.exception.StatusEnum;
 

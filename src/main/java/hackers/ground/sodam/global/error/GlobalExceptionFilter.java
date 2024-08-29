@@ -1,6 +1,7 @@
 package hackers.ground.sodam.global.error;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hackers.ground.sodam.global.error.exception.BusinessException;
 import hackers.ground.sodam.global.error.exception.StatusEnum;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,7 +9,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.filter.OncePerRequestFilter;
-import hackers.ground.sodam.global.error.exception.BusinessException;
 
 import java.io.IOException;
 

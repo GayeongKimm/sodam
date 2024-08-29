@@ -7,7 +7,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate.dialect: org.hibernate.dialect.SQLServerDialect
@@ -27,19 +27,19 @@ spring:
     servlet:
       content-type: text/html
 
-  cloud:
-    azure:
-      storage:
-        blob:
-          account-name: ${STORAGE_NAME}
-          endpoint: ${ENDPOINT}
-
+  azure:
+    storage:
+      connection-string: ${STORAGE_CONNECT}
+      container-name: ${STORAGE_CONTAINER}
 
 application:
   jwt:
     secretKey: ${TOKEN_SECRET_KEY}
     accessExpiration: ${ACCESS_EXPIRE}
     refreshExpiration: ${REFRESH_EXPIRE}
+
+openai:
+  key: 04a2335b-bdd1-4d53-8544-a79d1940f9f7
 
 server:
   port: 8080

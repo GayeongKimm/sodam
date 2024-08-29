@@ -1,9 +1,9 @@
 package hackers.ground.sodam.global.infra.jwt;
 
+import hackers.ground.sodam.domain.thing.repository.UserRepository;
+import hackers.ground.sodam.domain.user.entity.UserEntity;
 import hackers.ground.sodam.global.infra.security.CustomMemberDetails;
 import hackers.ground.sodam.global.properties.JwtProperties;
-import hackers.ground.sodam.domain.user.entity.UserEntity;
-import hackers.ground.sodam.domain.user.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
@@ -17,15 +17,15 @@ import org.springframework.util.StringUtils;
 @RequiredArgsConstructor
 public class JwtHelper {
 
-    private final UserRepository userRepository;
+    private final UserRepository memberRepository;
     private final JwtProperties jwtProperties;
 
     @Transactional
     public Authentication getAuthentication(String accessToken) {
         Claims claims = getClaims(accessToken);
-        UserEntity user = userRepository.findByUserId(claims.getSubject());
+        UserEntity userEntity = memberRepository.findByUserId(claims.getSubject());
 
-        CustomMemberDetails details = new CustomMemberDetails(user);
+        CustomMemberDetails details = new CustomMemberDetails(userEntity);
 
         return new UsernamePasswordAuthenticationToken(details, null, details.getAuthorities());
     }

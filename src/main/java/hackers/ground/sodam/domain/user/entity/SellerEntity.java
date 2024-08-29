@@ -8,6 +8,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
+
 @Entity
 @Getter
 @Setter
@@ -19,6 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @AllArgsConstructor
 public class SellerEntity extends BaseTimeEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
@@ -27,7 +30,7 @@ public class SellerEntity extends BaseTimeEntity {
 
     @Column(name = "seller_open_date")
     @DateTimeFormat
-    private String openDate;
+    private LocalDate openDate;
 
     @Column(name = "seller_seller_num")
     private String sellerNum;

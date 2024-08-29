@@ -1,11 +1,13 @@
-package hackers.ground.sodam.domain.auth.presentation.dto.req;
+package hackers.ground.sodam.domain.auth.presentation.dto.res;
 
-public record SignUpReq(
+import java.time.LocalDate;
+
+public record SignInReq(
         String memberId,
         String memberName,
-        String memberPassword,
         String memberEmail,
-        String openDate,
+        String memberPassword,
+        LocalDate openDate,
         String sellerNum,
         String phoneNum,
         String farmName,

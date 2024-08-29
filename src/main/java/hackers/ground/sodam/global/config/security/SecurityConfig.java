@@ -48,6 +48,7 @@ public class SecurityConfig {
                 .requestMatchers("/email/**").permitAll()
                 .requestMatchers("/re_provide/**").permitAll()
                 .requestMatchers("/file/**").hasRole("ACTIVE")
+                .requestMatchers("/chat-gpt/**").hasRole("ACTIVE")
                 .requestMatchers("/member/**").hasRole("ACTIVE")
                 .requestMatchers("/contest/**").hasRole("ACTIVE")
                 .requestMatchers("/like/**").hasRole("ACTIVE")

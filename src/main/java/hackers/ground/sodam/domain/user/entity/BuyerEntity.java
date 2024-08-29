@@ -17,7 +17,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @DynamicUpdate
 @AllArgsConstructor
 public class BuyerEntity extends BaseTimeEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,10 +25,7 @@ public class BuyerEntity extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    @Column(name = "user_phone_num")
     private String phoneNum;
-
-    @Column(name = "user_address")
+    
     private String address;
-
 }

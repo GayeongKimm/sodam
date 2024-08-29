@@ -1,6 +1,5 @@
 package hackers.ground.sodam.global.error.custom.enroll;
 
-
 import hackers.ground.sodam.global.error.exception.BusinessException;
 import hackers.ground.sodam.global.error.exception.StatusEnum;
 

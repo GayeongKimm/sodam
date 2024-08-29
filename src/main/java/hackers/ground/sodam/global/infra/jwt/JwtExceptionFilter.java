@@ -2,7 +2,6 @@ package hackers.ground.sodam.global.infra.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hackers.ground.sodam.global.error.ErrorResponse;
-import hackers.ground.sodam.global.error.exception.StatusEnum;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -10,6 +9,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import hackers.ground.sodam.global.error.exception.BusinessException;
+import hackers.ground.sodam.global.error.exception.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;

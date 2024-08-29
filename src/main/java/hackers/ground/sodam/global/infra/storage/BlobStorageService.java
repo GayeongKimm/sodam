@@ -17,29 +17,29 @@ import reactor.core.publisher.Flux;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.UUID;
-
-@RequiredArgsConstructor
-@Service
-public class BlobStorageService {
-    private final BlobContainerAsyncClient blobContainerAsyncClient;
-    int blockSize = 10 * 1024;
-    int numBuffers = 5;
-
-    public ResponseData<String> upload(MultipartFile multipartFile, String dirName) throws IOException {
-        String originFileName = multipartFile.getOriginalFilename();
-
-        String uuid = UUID.randomUUID().toString();
-        assert originFileName!= null;
-        String uniqueFileName = uuid + "_" + originFileName.replaceAll("\\s", "_");
-
-        String fileName = dirName + "/" + uniqueFileName;
-
-        BlobAsyncClient blobAsyncClient = blobContainerAsyncClient.getBlobAsyncClient(fileName);
-        Flux<ByteBuffer> data = Flux.just(ByteBuffer.wrap(multipartFile.getInputStream().readAllBytes()));
-        ParallelTransferOptions parallelTransferOptions = new ParallelTransferOptions(numBuffers, blockSize, null);
-        blobAsyncClient.upload(data,parallelTransferOptions, true).block();
-
-        return ResponseData.of(HttpStatus.OK, "성공", blobAsyncClient.getBlobUrl());
-    }
-
-}
+//
+//@RequiredArgsConstructor
+//@Service
+//public class BlobStorageService {
+//    private final BlobContainerAsyncClient blobContainerAsyncClient;
+//    int blockSize = 10 * 1024;
+//    int numBuffers = 5;
+//
+//    public ResponseData<String> upload(MultipartFile multipartFile, String dirName) throws IOException {
+//        String originFileName = multipartFile.getOriginalFilename();
+//
+//        String uuid = UUID.randomUUID().toString();
+//        assert originFileName!= null;
+//        String uniqueFileName = uuid + "_" + originFileName.replaceAll("\\s", "_");
+//
+//        String fileName = dirName + "/" + uniqueFileName;
+//
+//        BlobAsyncClient blobAsyncClient = blobContainerAsyncClient.getBlobAsyncClient(fileName);
+//        Flux<ByteBuffer> data = Flux.just(ByteBuffer.wrap(multipartFile.getInputStream().readAllBytes()));
+//        ParallelTransferOptions parallelTransferOptions = new ParallelTransferOptions(numBuffers, blockSize, null);
+//        blobAsyncClient.upload(data,parallelTransferOptions, true).block();
+//
+//        return ResponseData.of(HttpStatus.OK, "성공", blobAsyncClient.getBlobUrl());
+//    }
+//
+//}

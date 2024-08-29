@@ -1,8 +1,8 @@
 package hackers.ground.sodam.global.infra.security;
 
+import hackers.ground.sodam.domain.user.entity.UserEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import hackers.ground.sodam.domain.user.entity.UserEntity;
 
 @Component
 public class GetCurrentMember {

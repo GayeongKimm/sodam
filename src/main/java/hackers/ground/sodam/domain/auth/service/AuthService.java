@@ -1,8 +1,15 @@
 package hackers.ground.sodam.domain.auth.service;
 
-import hackers.ground.sodam.domain.auth.presentation.dto.req.UserSignUpReq;
+import hackers.ground.sodam.domain.auth.presentation.dto.res.SignInReq;
+import hackers.ground.sodam.domain.auth.presentation.dto.res.SignUpReq;
+import hackers.ground.sodam.domain.auth.presentation.dto.res.TokenRes;
+import hackers.ground.sodam.domain.thing.presentation.dto.req.UserSignUpReq;
+import hackers.ground.sodam.domain.thing.repository.UserRepository;
 import hackers.ground.sodam.domain.user.entity.BuyerEntity;
 import hackers.ground.sodam.domain.user.entity.SellerEntity;
+import hackers.ground.sodam.domain.user.entity.UserEntity;
+import hackers.ground.sodam.domain.user.enums.UserCategory;
+import hackers.ground.sodam.domain.user.enums.UserState;
 import hackers.ground.sodam.domain.user.repository.BuyerRepository;
 import hackers.ground.sodam.domain.user.repository.SellerRepository;
 import hackers.ground.sodam.global.error.custom.auth.WrongPasswordException;
@@ -10,20 +17,12 @@ import hackers.ground.sodam.global.error.custom.email.EmailAlreadyExistsExceptio
 import hackers.ground.sodam.global.error.custom.member.IdAlreadyExistException;
 import hackers.ground.sodam.global.error.custom.member.MemberNotFoundException;
 import hackers.ground.sodam.global.infra.jwt.JwtProvider;
-import hackers.ground.sodam.global.response.Response;
 import hackers.ground.sodam.global.response.ResponseData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import hackers.ground.sodam.domain.auth.presentation.dto.req.SignInReq;
-import hackers.ground.sodam.domain.auth.presentation.dto.req.SignUpReq;
-import hackers.ground.sodam.domain.auth.presentation.dto.res.TokenRes;
-import hackers.ground.sodam.domain.user.entity.UserEntity;
-import hackers.ground.sodam.domain.user.enums.UserCategory;
-import hackers.ground.sodam.domain.user.enums.UserState;
-import hackers.ground.sodam.domain.user.repository.UserRepository;
 
 @Component
 @RequiredArgsConstructor
@@ -64,9 +63,6 @@ public class AuthService {
 
     @Transactional(rollbackFor = Exception.class)
     public ResponseData<UserCategory> signUpSeller(SignUpReq signUpReq) {
-        if (userRepository.existsByUserEmail(signUpReq.memberEmail())){
-            throw EmailAlreadyExistsException.EXCEPTION;
-        }
 
         if (userRepository.existsByUserId(signUpReq.memberId()))
             throw IdAlreadyExistException.EXCEPTION;

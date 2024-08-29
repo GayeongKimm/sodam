@@ -1,8 +1,8 @@
 package hackers.ground.sodam.global.infra.security;
 
+import hackers.ground.sodam.domain.user.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import hackers.ground.sodam.domain.user.entity.UserEntity;
 
 import java.util.ArrayList;
 import java.util.Collection;
